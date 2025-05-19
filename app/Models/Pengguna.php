@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Pengguna extends Model
 {
     //
-    protected $fillable = ['name', 'email', 'password', 'phone', 'file_upload'];
+    protected $fillable = ['name', 'email', 'password', 'phone', 'file_upload', 'role'];
 }

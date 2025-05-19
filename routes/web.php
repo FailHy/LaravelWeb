@@ -12,13 +12,8 @@ use phpDocumentor\Reflection\Types\Resource_;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/welcome', function () {
     return view('welcome');
 });
-
-
 
 Route::get('mahasiswa', ['Mahasiswa\ControllerMahasiswa@index']);
 
@@ -273,17 +268,17 @@ Route::get('force-delete', [DosenController::class,'forceDelete']);
 // Route::delete('pengguna/{id}', [PenggunaController::class,'destroy'])->name('penggunas.destroy');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->
+        name('dashboard');
 
-        Route::prefix('profile')->group(function () {
-            Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
-            Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
-            Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
-        });
-
-        Route::middleware('user', 'admin')->group(function () {
-            Route::resource('penggunas', PenggunaController::class);
-        });
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    });
+    Route::middleware('auth', 'admin')->group(function () {
+        Route::resource('penggunas', PenggunaController::class);
+    });
 });
 
 require __DIR__.'/auth.php';
